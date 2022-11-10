@@ -1,0 +1,58 @@
+.green {
+  --background: #528d4e;
+  --border-color: #528d4e;
+  animation: flip 0.5s ease forwards;
+}
+
+.grey {
+  --background: #3a393c;
+  --border-color: #3a393c;
+  animation: flip 0.5s ease forwards;
+}
+
+.yellow {
+  --background: #b49f39;
+  --border-color: #b49f39;
+  animation: flip 0.5s ease forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+    background-color: #121212;
+    border-color: #333;
+  }
+
+  45% {
+    transform: rotateX(90deg);
+    background-color: #121212;
+    border-color: #333;
+  }
+
+  55% {
+    transform: rotateX(90deg);
+    background: var(--background);
+    border-color: var(--border-color);
+  }
+
+  100% {
+    transform: rotateX(0);
+    background: var(--background);
+    border-color: var(--border-color);
+  }
+}
+
+
+.greenbtn{
+  background: #528d4e !important;
+  border-color: #528d4e !important;
+}
+.greybtn {
+  background: #3a393c !important;
+  border-color: #3a393c !important;
+}
+
+.yellowbtn {
+  background: #b49f39 !important;
+  border-color: #b49f39 !important;
+}

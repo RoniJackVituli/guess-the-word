@@ -1,0 +1,13 @@
+.gameContainer{
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;  
+  padding-top: 40px;
+
+  @media (max-width:640px) {
+    justify-content: space-between;
+    padding-top: 0;
+  }
+}

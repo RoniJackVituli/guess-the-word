@@ -1,0 +1,33 @@
+.keypad {
+  max-width: 100%;
+  margin-bottom: 5rem;
+  @media (max-width:640px) {
+    margin-bottom: 0;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .keyOne {
+    display: flex;
+  }
+  .keyTwo {
+    display: flex;
+    justify-content: center;
+  }
+  .keyThree {
+    display: flex;
+  }
+
+  .letter {
+    cursor: pointer;
+    margin: 5px;
+    width: 42px;
+    line-height: 50px;
+    background: gray;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
+}
