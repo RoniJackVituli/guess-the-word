@@ -6,7 +6,7 @@ type Props = {
   guesses: {key:string, color:string}[][];
   currectGuess?: string;
   turn?: number;
-  wrong?: boolean;
+  wrong?: {wrong: boolean, message:string}; 
 }
 
 

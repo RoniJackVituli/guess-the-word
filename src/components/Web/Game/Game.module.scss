@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Marhey&family=PT+Sans:wght@400;700&display=swap');
 .gameContainer{
   min-height: 90vh;
   display: flex;
@@ -10,4 +11,34 @@
     justify-content: space-between;
     padding-top: 20px;
   }
+  .messageError{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'PT Sans', sans-serif;
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0);
+    top: 100px;
+    transition: 0.5s ease-in-out;
+    border-radius: 20px;
+    p{
+      font-size: 15px;
+      border-radius: 20px;
+      padding: 10px;
+      background-color: white;
+      text-align: center;
+    }
+  }
+
+  .in{
+    opacity: 1;
+  }
+  .out{
+    opacity: 0;
+  }
 }
+
+
+

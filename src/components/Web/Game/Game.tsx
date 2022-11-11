@@ -1,13 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Board from '../Board/Board';
 import Keyboard from '../Keyboard/Keyboard';
 import classes from './Game.module.scss';
 import { useGuessTheWord } from '../../../Hooks/useGuessTheWord';
 
-const Game = () => {
-  const { guesses, turn, currectGuess, handleKeyup, wrong, keyboard, isCorrect } =
-    useGuessTheWord('about');
-    useEffect(()=>{
+type Props = {
+  solution: string;
+}
+
+const Game:React.FC<Props> = (props) => {
+  const [wrongMessage, setWrongMessage] = useState(false); 
+  const { guesses, turn, currectGuess, handleKeyup, wrong, keyboard, isCorrect } = useGuessTheWord(props.solution);
+
+  useEffect(()=>{
+    if(wrong.wrong){
+      setWrongMessage(true);
+    }
+    setTimeout(()=>{
+      setWrongMessage(false);
+    }, 4000)
+  },[wrong.wrong])
+
+  useEffect(()=>{
       if(isCorrect){
         window.removeEventListener('keyup',handleKeyup);
       }
@@ -19,6 +33,7 @@ const Game = () => {
     
       <div className={classes.gameContainer}>
         <Board guesses={guesses} currectGuess={currectGuess} turn={turn} wrong={wrong}/>
+         <div className={classes.messageError + ` ${wrongMessage ? classes.in : classes.out} `}><p>{wrong.message}</p></div>
         <Keyboard handleKeyUp={handleKeyup} keyboard={keyboard} isCorrect = {isCorrect}/>
       </div>
   );

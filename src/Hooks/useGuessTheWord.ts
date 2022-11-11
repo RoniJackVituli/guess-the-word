@@ -47,20 +47,21 @@ const GUESSES = [
 ];
 
 const colors = {
-  "": 0,
-  "grey": 1,
-  "yellow": 2,
-  "green": 3,
-}
+  '': 0,
+  grey: 1,
+  yellow: 2,
+  green: 3,
+};
 
 export const useGuessTheWord = (solution: string) => {
   const [guesses, setGuesses] = useState(GUESSES);
   const [currectGuess, setCurrectGuess] = useState<string>('');
   const [turn, setTurn] = useState<number>(0);
   const [history, setHistory] = useState<string[]>([]);
-  const [wrong, setWrong] = useState<boolean>(false);
+  const [wrong, setWrong] = useState<{wrong: boolean, message:string}>({ wrong: false, message: '' });
   const [keyboard, setKeyboard] = useState(KEYBOARD_OBJ);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
+ 
   const parseGuesse = () => {
     let solutionSplit: string[] = [...solution.toLocaleUpperCase().split('')];
     const guess = [
@@ -87,7 +88,7 @@ export const useGuessTheWord = (solution: string) => {
   };
 
   const addGuessToGuesses = (Guess: { key: string; color: string }[]) => {
-    if(currectGuess.toLowerCase() === solution.toLowerCase()){
+    if (currectGuess.toLowerCase() === solution.toLowerCase()) {
       setIsCorrect(true);
     }
     setGuesses((prevGuesses) => {
@@ -97,47 +98,49 @@ export const useGuessTheWord = (solution: string) => {
     });
 
     Guess.forEach((letter) => {
-      if (letter.key in keyboard.ROW_ONE){
-        setKeyboard((prev) =>{
-          let color = {...prev.ROW_ONE}[letter.key]!;
-          const currectColor = color in colors ? {...colors}[color] : 0;
-          const newColor = letter.color in colors ? {...colors}[letter.color] : 0;
-          if(newColor! > currectColor!){
-            let  ROW_ONE = {...prev.ROW_ONE ,[letter.key]: letter.color};            
-            return { ...prev, ROW_ONE}
+      if (letter.key in keyboard.ROW_ONE) {
+        setKeyboard((prev) => {
+          let color = { ...prev.ROW_ONE }[letter.key]!;
+          const currectColor = color in colors ? { ...colors }[color] : 0;
+          const newColor =
+            letter.color in colors ? { ...colors }[letter.color] : 0;
+          if (newColor! > currectColor!) {
+            let ROW_ONE = { ...prev.ROW_ONE, [letter.key]: letter.color };
+            return { ...prev, ROW_ONE };
           }
-          let  ROW_ONE = {...prev.ROW_ONE ,[letter.key]: color};            
-          return { ...prev, ROW_ONE}
-        })
+          let ROW_ONE = { ...prev.ROW_ONE, [letter.key]: color };
+          return { ...prev, ROW_ONE };
+        });
       }
-      if(letter.key in keyboard.ROW_TWO){
-        setKeyboard((prev) =>{
-          let color = {...prev.ROW_TWO}[letter.key]!;
-          const currectColor = color in colors ? {...colors}[color] : 0;
-          const newColor = letter.color in colors ? {...colors}[letter.color] : 0;
-          if(newColor! > currectColor!){
-            let  ROW_TWO = {...prev.ROW_TWO ,[letter.key]: letter.color};            
-            return { ...prev, ROW_TWO}
+      if (letter.key in keyboard.ROW_TWO) {
+        setKeyboard((prev) => {
+          let color = { ...prev.ROW_TWO }[letter.key]!;
+          const currectColor = color in colors ? { ...colors }[color] : 0;
+          const newColor =
+            letter.color in colors ? { ...colors }[letter.color] : 0;
+          if (newColor! > currectColor!) {
+            let ROW_TWO = { ...prev.ROW_TWO, [letter.key]: letter.color };
+            return { ...prev, ROW_TWO };
           }
-          let  ROW_TWO = {...prev.ROW_TWO ,[letter.key]: color};            
-          return { ...prev, ROW_TWO}
-        })
+          let ROW_TWO = { ...prev.ROW_TWO, [letter.key]: color };
+          return { ...prev, ROW_TWO };
+        });
       }
-      if(letter.key in keyboard.ROW_THREE){
-        setKeyboard((prev) =>{
-          let color = {...prev.ROW_THREE}[letter.key]!;
-          const currectColor = color in colors ? {...colors}[color] : 0;
-          const newColor = letter.color in colors ? {...colors}[letter.color] : 0;
-          if(newColor! > currectColor!){
-            let  ROW_THREE = {...prev.ROW_THREE ,[letter.key]: letter.color};            
-            return { ...prev, ROW_THREE}
+      if (letter.key in keyboard.ROW_THREE) {
+        setKeyboard((prev) => {
+          let color = { ...prev.ROW_THREE }[letter.key]!;
+          const currectColor = color in colors ? { ...colors }[color] : 0;
+          const newColor =
+            letter.color in colors ? { ...colors }[letter.color] : 0;
+          if (newColor! > currectColor!) {
+            let ROW_THREE = { ...prev.ROW_THREE, [letter.key]: letter.color };
+            return { ...prev, ROW_THREE };
           }
-          let  ROW_THREE = {...prev.ROW_THREE ,[letter.key]: color};            
-          return { ...prev, ROW_THREE}
-        })
+          let ROW_THREE = { ...prev.ROW_THREE, [letter.key]: color };
+          return { ...prev, ROW_THREE };
+        });
       }
-
-    })
+    });
 
     setHistory((prevHistory) => {
       return [...prevHistory, currectGuess];
@@ -151,35 +154,36 @@ export const useGuessTheWord = (solution: string) => {
   };
 
   const handleKeyup = (event: KeyboardEvent | string) => {
-
     const key = typeof event === 'string' ? event : event.key.toUpperCase();
     if (key === 'ENTER') {
       if (turn > 5) {
         return;
       }
-      if (!WORDS.includes(currectGuess.toLocaleLowerCase())) {
-        console.log('TESTESTES');
-        
-        setWrong(true);
+      
+      if (currectGuess.length !== 5) {
+        setWrong({ wrong: true, message: 'need 5 letters' });
         return;
       }
+
+      if (!WORDS.includes(currectGuess.toLocaleLowerCase())) {
+        setWrong({ wrong: true, message: 'not in word list'});
+        return;
+      }
+
 
       if (history.includes(currectGuess)) {
-        console.log('you already try this word!');
-        setWrong(true);
+        setWrong({ wrong: true, message: 'you already try this word!' });
         return;
       }
 
-      if (currectGuess.length !== 5) {
-        setWrong(true);
-        return;
-      }
 
       const guess = parseGuesse();
       addGuessToGuesses(guess);
     }
     if (key === 'DEL' || key === 'BACKSPACE') {
-      setWrong(false);
+      setWrong((prev)=>{
+        return {...prev, wrong:false}
+      });
       setCurrectGuess((prev) => {
         return prev.slice(0, -1);
       });
@@ -194,5 +198,13 @@ export const useGuessTheWord = (solution: string) => {
     }
   };
 
-  return { wrong, currectGuess, guesses, turn, handleKeyup, keyboard, isCorrect };
+  return {
+    wrong,
+    currectGuess,
+    guesses,
+    turn,
+    handleKeyup,
+    keyboard,
+    isCorrect,
+  };
 };

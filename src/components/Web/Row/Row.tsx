@@ -3,7 +3,7 @@ import classes from './Row.module.scss';
 type Props = {
   row: { key: string; color: string }[];
   currectGuess?: string | null;
-  wrong?: boolean;
+  wrong?: {wrong: boolean, message:string}
 };
 
 const Row: React.FC<Props> = (props) => {
@@ -12,7 +12,7 @@ const Row: React.FC<Props> = (props) => {
   if (currectGuess) {
     let letters = currectGuess.split('');
     return (
-      <div className={classes.row + ` ${wrong ? classes.shake : ''}`}>
+      <div className={classes.row + ` ${wrong!.wrong ? classes.shake : ''}`}>
         {letters.map((letter, i) => (
           <div key={i} className={classes.cell + ' ' + classes.bounce}>
             {letter}
