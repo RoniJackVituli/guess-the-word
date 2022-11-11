@@ -19,7 +19,7 @@ const Game = () => {
     
       <div className={classes.gameContainer}>
         <Board guesses={guesses} currectGuess={currectGuess} turn={turn} wrong={wrong}/>
-        <Keyboard handleKeyUp={handleKeyup} keyboard={keyboard}/>
+        <Keyboard handleKeyUp={handleKeyup} keyboard={keyboard} isCorrect = {isCorrect}/>
       </div>
   );
 };
